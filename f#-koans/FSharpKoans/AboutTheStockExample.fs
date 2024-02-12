@@ -27,6 +27,7 @@ open FSharpKoans.Core
 //---------------------------------------------------------------
 [<Koan(Sort = 15)>]
 module ``about the stock example`` =
+    open System
     
     let stockData =
         [ "Date,Open,High,Low,Close,Volume,Adj Close";
@@ -60,6 +61,19 @@ module ``about the stock example`` =
 
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let result =  __
+        let splitCommas (s: string) = 
+            s.Split(',')
+        let skipHeader = List.skip 1
+        let pickOpenClose (arr: string array) = arr.[1], arr.[4]
+        let parseDoubles (t: string * string) = Double.Parse(fst t), Double.Parse(snd t)
+        let difference (t: float * float) = abs (fst t - snd t)
+        let pipe = pickOpenClose >> parseDoubles >> difference
+
+        let result = 
+            stockData
+            |> skipHeader
+            |> List.map splitCommas
+            |> List.maxBy pipe
+            
         
-        AssertEquality "2012-03-13" result
+        AssertEquality "2012-03-13" result.[0]
