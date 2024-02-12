@@ -64,10 +64,10 @@ module ``about the stock example`` =
         let splitCommas (s: string) = 
             s.Split(',')
         let skipHeader = List.skip 1
-        let pickOpenClose (arr: string array) = arr.[1], arr.[4]
-        let parseDoubles (t: string * string) = Double.Parse(fst t), Double.Parse(snd t)
-        let difference (t: float * float) = abs (fst t - snd t)
-        let pipe = pickOpenClose >> parseDoubles >> difference
+        let pickOpeningClosing (arr: string array) = arr.[1], arr.[4]
+        let toFloat (opening: string, closing: string) = float opening, float closing
+        let difference (opening: float, closing: float) = abs (opening - closing)
+        let pipe = pickOpeningClosing >> toFloat >> difference
 
         let result = 
             stockData
