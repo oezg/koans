@@ -43,14 +43,14 @@ module ``about classes`` =
     let ClassesCanHaveProperties() =
         let zombie = new Zombie()
 
-        AssertEquality zombie.FavoriteFood __
+        AssertEquality zombie.FavoriteFood "brains"
 
     [<Koan>]
     let ClassesCanHaveMethods() =
         let zombie = new Zombie()
 
         let result = zombie.Eat "brains"
-        AssertEquality result __
+        AssertEquality result "mmmmmmmmmmmmmmm"
     
     [<Koan>]
     let ClassesCanHaveConstructors() =

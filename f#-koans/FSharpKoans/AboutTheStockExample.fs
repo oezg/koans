@@ -61,23 +61,11 @@ module ``about the stock example`` =
 
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let splitCommas (s: string) = 
-            s.Split(',')
-        let skipHeader = 
-            List.skip 1
-        let pickOpeningClosing (arr: string array) = 
-            arr.[1], arr.[4]
-        let toFloat (opening: string, closing: string) = 
-            float opening, float closing
-        let difference (opening: float, closing: float) = 
-            abs (opening - closing)
-        let pipe = 
-            pickOpeningClosing >> toFloat >> difference
-
         let result = 
             stockData
-            |> skipHeader
-            |> List.map splitCommas
-            |> List.maxBy pipe
+            |> List.skip 1
+            |> List.map (fun s -> s.Split(','))
+            |> List.maxBy (fun arr -> abs (float arr.[1] - float arr.[4]))
+            |> Array.item 0
         
-        AssertEquality "2012-03-13" result.[0]
+        AssertEquality "2012-03-13" result
