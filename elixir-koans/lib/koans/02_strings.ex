@@ -5,27 +5,27 @@ defmodule Strings do
   @intro "Strings"
 
   koan "Strings are there to represent text" do
-    assert "hello" == ___
+    assert "hello" == "hello"
   end
 
   koan "Values may be inserted into strings by interpolation" do
-    assert "1 + 1 = #{1 + 1}" == ___
+    assert "1 + 1 = #{1 + 1}" == "1 + 1 = 2"
   end
 
   koan "They can be put together" do
-    assert "hello world" == ___ <> "world"
+    assert "hello world" == "hello " <> "world"
   end
 
   koan "Or pulled apart into a list when needed" do
-    assert ["hello", "world"] == String.split(___, " ")
+    assert ["hello", "world"] == String.split("hello world", " ")
   end
 
   koan "Be careful, a message may be altered" do
-    assert String.replace("An awful day", "awful", "incredible") == ___
+    assert String.replace("An awful day", "awful", "incredible") == "An incredible day"
   end
 
   koan "But strings never lie about themselves" do
-    assert true == String.contains?("An incredible day", ___)
+    assert true == String.contains?("An incredible day", "awful")
   end
 
   koan "Sometimes you want just the opposite of what is given" do
