@@ -25,22 +25,22 @@ defmodule Strings do
   end
 
   koan "But strings never lie about themselves" do
-    assert true == String.contains?("An incredible day", "awful")
+    assert false == String.contains?("An incredible day", "awful")
   end
 
   koan "Sometimes you want just the opposite of what is given" do
-    assert ___ == String.reverse("ananab")
+    assert "banana" == String.reverse("ananab")
   end
 
   koan "Other times a little cleaning is in order" do
-    assert String.trim("  \n banana\n  ") == ___
+    assert String.trim("  \n banana\n  ") == "banana"
   end
 
   koan "Repetition is the mother of learning" do
-    assert String.duplicate("String", 3) == ___
+    assert String.duplicate("String", 3) == "StringStringString"
   end
 
   koan "Strings can be louder when necessary" do
-    assert String.upcase("listen") == ___
+    assert String.upcase("listen") == "LISTEN"
   end
 end
