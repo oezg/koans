@@ -27,42 +27,42 @@
         ;; ...or by using the function CONS.
         (names (cons "Matthew" (cons "Mark" (cons "Margaret" '())))))
     ;; Try filling in the below blanks in different ways.
-    (assert-equal ____ fruits)
-    (assert-equal ____ some-evens)
-    (assert-equal ____ long-numbers)
-    (assert-equal ____ names)))
+    (assert-equal (list 'orange 'pomello 'clementine) fruits)
+    (assert-equal '(2 4 6) some-evens)
+    (assert-equal (cons 16487302 (cons 3826700034 (cons 10000000 nil))) long-numbers)
+    (assert-equal '("Matthew" "Mark" "Margaret") names)))
 
 (define-test cons-tructing-lists
   ;; The function CONS can be used to add new elements at the beginning of
   ;; an existing list.
   (let ((nums '()))
     (setf nums (cons :one nums))
-    (assert-equal ____ nums)
+    (assert-equal '(:one) nums)
     (setf nums (cons :two nums))
-    (assert-equal ____ nums)
+    (assert-equal '(:two :one) nums)
     ;; Lists can contain anything, even objects of different types.
     (setf nums (cons 333 nums))
-    (assert-equal ____ nums)
+    (assert-equal '(333 :two :one) nums)
     ;; Lists can contain other lists, too.
     (setf nums (cons (list "some" "strings") nums))
-    (assert-equal ____ nums)))
+    (assert-equal '(("some" "strings") 333 :two :one) nums)))
 
 (define-test car-and-cdr
   ;; We may use functions CAR and CDR (or, alternatively, FIRST and REST) to
   ;; access the two slots of a cons cell.
   (let ((x (cons 1 2)))
-    (assert-equal ____ (car x))
-    (assert-equal ____ (cdr x)))
+    (assert-equal 1 (car x))
+    (assert-equal 2 (cdr x)))
   ;; Calls to CAR and CDR are often intertwined to extract data from a nested
   ;; cons structure.
   (let ((structure '((1 2) (("foo" . "bar")))))
-    (assert-equal ____ (car structure))
-    (assert-equal ____ (car (cdr structure)))
-    (assert-equal ____ (cdr (car (car (cdr structure)))))
+    (assert-equal '(1 2) (car structure))
+    (assert-equal '(("foo" . "bar")) (car (cdr structure)))
+    (assert-equal "bar" (cdr (car (car (cdr structure)))))
     ;; Lisp defines shorthand functions for up to four such nested calls.
-    (assert-equal ____ (car structure))
-    (assert-equal ____ (cadr structure))
-    (assert-equal ____ (cdaadr structure))))
+    (assert-equal '(1 2) (car structure))
+    (assert-equal '(("foo" . "bar")) (cadr structure))
+    (assert-equal "bar" (cdaadr structure))))
 
 (define-test push-pop
   ;; PUSH and POP are macros similar to SETF, as both of them operate on places.
@@ -70,35 +70,35 @@
     ;; PUSH sets the value of the place to a new cons cell containing some value
     ;; in its CAR.
     (push 0 place)
-    (assert-equal ____ place)
+    (assert-equal '(0 10 20 30 40) place)
     ;; POP removes a single cons cell from a place, sets the place to its CDR,
     ;; and returns the value from its CAR.
     (let ((value (pop place)))
-      (assert-equal ____ value)
-      (assert-equal ____ place))
+      (assert-equal 0 value)
+      (assert-equal '(10 20 30 40) place))
     ;; The return value of POP can be discarded to simply "remove" a single cons
     ;; cell from a place.
     (pop place)
     (let ((value (pop place)))
-      (assert-equal ____ value)
-      (assert-equal ____ place))))
+      (assert-equal 20 value)
+      (assert-equal '(30 40) place))))
 
 (define-test append-nconc
   ;; The functions APPEND and NCONC appends one list to the end of another.
   ;; While APPEND creates new lists, NCONC modifies existing ones; therefore
   ;; APPEND can be used on literals, but NCONC needs fresh lists.
-  (assert-equal ____ (append '(:a :b) '(:c)))
-  (assert-equal ____ (nconc (list :a :b) (list :c)))
+  (assert-equal '(:a :b :c) (append '(:a :b) '(:c)))
+  (assert-equal '(:a :b :c) (nconc (list :a :b) (list :c)))
   (let ((list-1 (list 1 2 3))
         (list-2 (list 4 5 6)))
     ;; Both APPEND and NCONC return the appended list, but the interesting part
     ;; is what happens when we try to use the original variables passed to them.
-    (assert-equal ____ (append list-1 list-2))
-    (assert-equal ____ list-1)
-    (assert-equal ____ list-2)
-    (assert-equal ____ (nconc list-1 list-2))
-    (assert-equal ____ list-1)
-    (assert-equal ____ list-2)))
+    (assert-equal (list 1 2 3 4 5 6) (append list-1 list-2))
+    (assert-equal (list 1 2 3) list-1)
+    (assert-equal (list 4 5 6) list-2)
+    (assert-equal (list 1 2 3 4 5 6) (nconc list-1 list-2))
+    (assert-equal (list 1 2 3 4 5 6) list-1)
+    (assert-equal (list 4 5 6) list-2)))
 
 (define-test accessing-list-elements
   (let ((noms '("peanut" "butter" "and" "jelly")))
