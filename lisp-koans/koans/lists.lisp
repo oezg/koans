@@ -105,14 +105,14 @@
     ;; Common Lisp defines accessor functions for lists: FIRST, SECOND, ...,
     ;; up to TENTH.
     (assert-equal "peanut" (first noms))
-    (assert-equal ____ (second noms))
-    (assert-equal ____ (fourth noms))
+    (assert-equal "butter" (second noms))
+    (assert-equal "jelly" (fourth noms))
     ;; The function LAST returns the last cons cell of a list.
-    (assert-equal ____ (last noms))
+    (assert-equal '("jelly") (last noms))
     ;; The function NTH returns the n-th element of a list.
     (assert-equal "butter" (nth 1 noms))
-    (assert-equal ____ (nth 0 noms))
-    (assert-equal ____ (nth 3 noms))))
+    (assert-equal "peanut" (nth 0 noms))
+    (assert-equal "jelly" (nth 3 noms))))
 
 (define-test cons-tructing-improper-lists
   ;; A proper list is a list whose final CDR ends with NIL.
@@ -122,25 +122,25 @@
         (x (list* 1 2 3 4 5))
         ;; ...or pass them as literals via dot notation.
         (y '(6 7 8 9 . 0)))
-    (assert-equal ____ (last x))
-    (assert-equal ____ (last y)))
+    (assert-equal '(4 . 5) (last x))
+    (assert-equal '(9 . 0) (last y)))
   ;; We can create a cyclic list by changing the last CDR of a list to refer to
   ;; another cons cell
   (let ((list (list 1 2 3 4 5))
         (cyclic-list (list 1 2 3 4 5)))
     (setf (cdr (last cyclic-list)) cyclic-list)
     ;; Function LIST-LENGTH returns NIL if a list is cyclic.
-    (assert-equal ____ (list-length list))
-    (assert-equal ____ (list-length cyclic-list))
+    (assert-equal 5 (list-length list))
+    (assert-equal nil (list-length cyclic-list))
     ;; Many Lisp functions operate only on proper lists.
     ;; The function NTH is not one of them; it can be used to retrieve elements
     ;; of cyclic lists.
-    (assert-equal ____ (nth 101 cyclic-list))))
+    (assert-equal 2 (nth 101 cyclic-list))))
 
 (define-test slicing-lists
   ;; The function SUBSEQ returns a subsequence of a list.
   (let ((noms (list "peanut" "butter" "and" "jelly")))
-    (assert-equal ____ (subseq noms 0 1))
-    (assert-equal ____ (subseq noms 0 2))
-    (assert-equal ____ (subseq noms 2 2))
-    (assert-equal ____ (subseq noms 2))))
+    (assert-equal '("peanut") (subseq noms 0 1))
+    (assert-equal '("peanut" "butter") (subseq noms 0 2))
+    (assert-equal '() (subseq noms 2 2))
+    (assert-equal '("and" "jelly") (subseq noms 2))))
