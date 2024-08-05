@@ -68,7 +68,7 @@
   ;; LOOP can iterate over a vector with the ACROSS keyword.
   (let* ((vector (make-array '(5) :initial-contents '(0 1 2 3 4)))
          (result (loop for number across vector collect number)))
-    (assert-equal ____ result)))
+    (assert-equal '(0 1 2 3 4) result)))
 
 (define-test loop-over-2d-array
   (let ((array (make-array '(3 2) :initial-contents '((0 1) (2 3) (4 5)))))
@@ -76,14 +76,14 @@
     ;; a multidimensional array.
     (let* ((result (loop for i from 0 below (array-total-size array)
                          collect (row-major-aref array i))))
-      (assert-equal ____ result))
+      (assert-equal '(0 1 2 3 4 5) result))
     ;; It is always possible to resort to nested loops.
     (let* ((result (loop with max-i = (array-dimension array 0)
                          for i from 0 below max-i
                          collect (loop with max-j = (array-dimension array 1)
                                        for j from 0 below max-j
                                        collect (expt (aref array i j) 2)))))
-      (assert-equal ____ result))))
+      (assert-equal '((0 1) (4 9) (16 25)) result))))
 
 (define-test loop-hash-table
   (let ((book-heroes (make-hash-table :test 'equal)))
@@ -95,8 +95,8 @@
     (let ((pairs-in-table (loop for key being the hash-keys of book-heroes
                                   using (hash-value value)
                                 collect (list key value))))
-      (assert-equal ____ (length pairs-in-table))
-      (true-or-false? ____ (find '("The Hobbit" "Bilbo") pairs-in-table
+      (assert-equal 4 (length pairs-in-table))
+      (true-or-false? t (find '("The Hobbit" "Bilbo") pairs-in-table
                                  :test #'equal)))))
 
 (define-test loop-statistics
@@ -110,11 +110,11 @@
                       finally (return (list collected counted summed
                                             maximized minimized)))))
     (destructuring-bind (collected counted summed maximized minimized) result
-      (assert-equal ____ collected)
-      (assert-equal ____ counted)
-      (assert-equal ____ summed)
-      (assert-equal ____ maximized)
-      (assert-equal ____ minimized))))
+      (assert-equal '(1 2 4 8 16 32) collected)
+      (assert-equal 6 counted)
+      (assert-equal 63 summed)
+      (assert-equal 32 maximized)
+      (assert-equal 1 minimized))))
 
 (define-test loop-destructuring
   ;; LOOP can bind multiple variables on each iteration step.
@@ -122,8 +122,8 @@
          (result (loop for (a b) in '((1 9) (2 8) (3 7) (4 6))
                        do (incf count)
                        collect (+ a b))))
-    (assert-equal ____ count)
-    (assert-equal ____ result)))
+    (assert-equal 4 count)
+    (assert-equal '(10 10 10 10) result)))
 
 (define-test loop-conditional-execution
   (let ((numbers '(1 1 2 3 5 8 13 21)))
