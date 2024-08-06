@@ -22,33 +22,33 @@
 (define-test format-basic
   ;; If there are no format directives in the string, FORMAT will return
   ;; a string that is STRING= to its format control.
-  (assert-equal ____ (format nil "Lorem ipsum dolor sit amet")))
+  (assert-equal "Lorem ipsum dolor sit amet" (format nil "Lorem ipsum dolor sit amet")))
 
 (define-test format-aesthetic
   ;; The ~A format directive creates aesthetic output.
-  (assert-equal ____ (format nil "This is the number ~A" 42))
-  (assert-equal ____ (format nil "This is the keyword ~A" :foo))
-  (assert-equal ____ (format nil "~A evaluates to ~A"
+  (assert-equal "This is the number 42" (format nil "This is the number ~A" 42))
+  (assert-equal "This is the keyword FOO" (format nil "This is the keyword ~A" :foo))
+  (assert-equal "(/ 24 (- 3 (/ 8 3))) evaluates to 72" (format nil "~A evaluates to ~A"
                              '(/ 24 (- 3 (/ 8 3)))
                              (/ 24 (- 3 (/ 8 3)))))
-  (assert-equal ____ (format nil "This is the character ~A" #\C))
-  (assert-equal ____ (format nil "In a ~A" "galaxy far far away")))
+  (assert-equal "This is the character C" (format nil "This is the character ~A" #\C))
+  (assert-equal "In a galaxy far far away" (format nil "In a ~A" "galaxy far far away")))
 
 (define-test format-standard
   ;; The ~S format directive prints objects with escape characters.
   ;; Not all Lisp objects require to be escaped.
-  (assert-equal ____ (format nil "This is the number ~S" 42))
-  (assert-equal ____ (format nil "~S evaluates to ~S"
+  (assert-equal "This is the number 42" (format nil "This is the number ~S" 42))
+  (assert-equal "(/ 24 (- 3 (/ 8 3))) evaluates to 72" (format nil "~S evaluates to ~S"
                              '(/ 24 (- 3 (/ 8 3)))
                              (/ 24 (- 3 (/ 8 3)))))
   ;; Keywords are printed with their leading colon.
-  (assert-equal ____ (format nil "This is the keyword ~S" :foo))
+  (assert-equal "This is the keyword :FOO" (format nil "This is the keyword ~S" :foo))
   ;; Characters are printed in their #\X form. The backslash will need to be
   ;; escaped inside the printed string, just like in "#\\X".
-  (assert-equal ____ (format nil "This is the character ~S" #\C))
+  (assert-equal "This is the character #\\C" (format nil "This is the character ~S" #\C))
   ;; Strings include quote characters, which must be escaped:
   ;; such a string might look in code like "foo \"bar\"".
-  (assert-equal ____ (format nil "In a ~S" "galaxy far far away")))
+  (assert-equal "In a \"galaxy far far away\"" (format nil "In a ~S" "galaxy far far away")))
 
 (define-test format-radix
   ;; The ~B, ~O, ~D, and ~X radices print numbers in binary, octal, decimal, and

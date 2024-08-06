@@ -130,11 +130,11 @@
     ;; LOOP can execute some actions conditionally.
     (let ((result (loop for x in numbers
                         when (evenp x) sum x)))
-      (assert-equal ____ result))
+      (assert-equal 10 result))
     (let ((result (loop for x in numbers
                         unless (evenp x) sum x)))
-      (assert-equal ____ result))
+      (assert-equal 44 result))
     (flet ((greater-than-10-p (x) (> x 10)))
       (let ((result (loop for x in numbers
                           when (greater-than-10-p x) sum x)))
-        (assert-equal ____ result)))))
+        (assert-equal 34 result)))))
