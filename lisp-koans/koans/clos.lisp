@@ -27,8 +27,8 @@
     (setf (slot-value car-1 'speed) 220)
     (setf (slot-value car-2 'color) :blue)
     (setf (slot-value car-2 'speed) 240)
-    (assert-equal ____ (slot-value car-1 'color))
-    (assert-equal ____ (slot-value car-2 'speed))))
+    (assert-equal :red (slot-value car-1 'color))
+    (assert-equal 240 (slot-value car-2 'speed))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -54,8 +54,8 @@
   (let ((ship (make-instance 'spaceship)))
     (setf (color ship) :orange
           (speed ship) 1000)
-    (assert-equal ____ (color ship))
-    (assert-equal ____ (speed ship))))
+    (assert-equal :orange (color ship))
+    (assert-equal 1000 (speed ship))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -66,8 +66,8 @@
 
 (define-test initargs
   (let ((bike (make-instance 'bike :color :blue :speed 30)))
-    (assert-equal ____ (color bike))
-    (assert-equal ____ (speed bike))))
+    (assert-equal :blue (color bike))
+    (assert-equal 30 (speed bike))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -92,14 +92,14 @@
         (adam (make-instance 'c-programmer
                              :name :adam
                              :favorite-c-compiler :clang)))
-    (assert-equal ____ (person-name jack))
-    (assert-equal ____ (person-name bob))
-    (assert-equal ____ (favorite-lisp-implementation bob))
-    (assert-equal ____ (person-name adam))
-    (assert-equal ____ (favorite-c-compiler adam))
-    (true-or-false? ____ (typep bob 'person))
-    (true-or-false? ____ (typep bob 'lisp-programmer))
-    (true-or-false? ____ (typep bob 'c-programmer))))
+    (assert-equal :jack (person-name jack))
+    (assert-equal :bob (person-name bob))
+    (assert-equal :sbcl (favorite-lisp-implementation bob))
+    (assert-equal :adam (person-name adam))
+    (assert-equal :clang (favorite-c-compiler adam))
+    (true-or-false? t (typep bob 'person))
+    (true-or-false? t (typep bob 'lisp-programmer))
+    (true-or-false? nil (typep bob 'c-programmer))))
 
 ;;; This includes multiple inheritance.
 
