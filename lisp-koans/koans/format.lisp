@@ -53,32 +53,32 @@
 (define-test format-radix
   ;; The ~B, ~O, ~D, and ~X radices print numbers in binary, octal, decimal, and
   ;; hexadecimal notation.
-  (assert-equal ____ (format nil "This is the number ~B" 42))
-  (assert-equal ____ (format nil "This is the number ~O" 42))
-  (assert-equal ____ (format nil "This is the number ~D" 42))
-  (assert-equal ____ (format nil "This is the number ~X" 42))
+  (assert-equal "This is the number 101010" (format nil "This is the number ~B" 42))
+  (assert-equal "This is the number 52" (format nil "This is the number ~O" 42))
+  (assert-equal "This is the number 42" (format nil "This is the number ~D" 42))
+  (assert-equal "This is the number 2A" (format nil "This is the number ~X" 42))
   ;; We can specify a custom radix by using the ~R directive.
-  (assert-equal ____ (format nil "This is the number ~3R" 42))
+  (assert-equal "This is the number 1120" (format nil "This is the number ~3R" 42))
   ;; It is possible to print whole forms this way.
   (let ((form '(/ 24 (- 3 (/ 8 3))))
         (result (/ 24 (- 3 (/ 8 3)))))
-    (assert-equal ____ (format nil "~B evaluates to ~B" form result))
-    (assert-equal ____ (format nil "~O evaluates to ~O" form result))
-    (assert-equal ____ (format nil "~D evaluates to ~D" form result))
-    (assert-equal ____ (format nil "~X evaluates to ~X" form result))
-    (assert-equal ____ (format nil "~3R evaluates to ~3R" form result))))
+    (assert-equal "(/ 11000 (- 11 (/ 1000 11))) evaluates to 1001000" (format nil "~B evaluates to ~B" form result))
+    (assert-equal "(/ 30 (- 3 (/ 10 3))) evaluates to 110" (format nil "~O evaluates to ~O" form result))
+    (assert-equal "(/ 24 (- 3 (/ 8 3))) evaluates to 72" (format nil "~D evaluates to ~D" form result))
+    (assert-equal "(/ 18 (- 3 (/ 8 3))) evaluates to 48" (format nil "~X evaluates to ~X" form result))
+    (assert-equal "(/ 220 (- 10 (/ 22 10))) evaluates to 2200" (format nil "~3R evaluates to ~3R" form result))))
 
 (define-test format-iteration
   ;; The ~{ and ~} directives iterate over a list.
-  (assert-equal ____ (format nil "~{[~A]~}" '(1 2 3 4 5 6)))
-  (assert-equal ____ (format nil "~{[~A ~A]~}" '(1 2 3 4 5 6)))
+  (assert-equal "[1][2][3][4][5][6]" (format nil "~{[~A]~}" '(1 2 3 4 5 6)))
+  (assert-equal "[1 2][3 4][5 6]" (format nil "~{[~A ~A]~}" '(1 2 3 4 5 6)))
   ;; The directive ~^ aborts iteration when no more elements remain.
-  (assert-equal ____ (format nil "~{[~A]~^, ~}" '(1 2 3 4 5 6))))
+  (assert-equal "[1], [2], [3], [4], [5], [6]" (format nil "~{[~A]~^, ~}" '(1 2 3 4 5 6))))
 
 (define-test format-case
   ;; The ~( and ~) directives adjust the string case.
-  (assert-equal ____ (format nil "~(~A~)" "The QuIcK BROWN fox"))
+  (assert-equal "the quick brown fox" (format nil "~(~A~)" "The QuIcK BROWN fox"))
   ;; Some FORMAT directives can be further adjusted with the : and @ modifiers.
-  (assert-equal ____ (format nil "~:(~A~)" "The QuIcK BROWN fox"))
-  (assert-equal ____ (format nil "~@(~A~)" "The QuIcK BROWN fox"))
-  (assert-equal ____ (format nil "~:@(~A~)" "The QuIcK BROWN fox")))
+  (assert-equal "The Quick Brown Fox" (format nil "~:(~A~)" "The QuIcK BROWN fox"))
+  (assert-equal "The quick brown fox" (format nil "~@(~A~)" "The QuIcK BROWN fox"))
+  (assert-equal "THE QUICK BROWN FOX" (format nil "~:@(~A~)" "The QuIcK BROWN fox")))
