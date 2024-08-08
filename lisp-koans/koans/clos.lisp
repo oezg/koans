@@ -110,13 +110,13 @@
                               :name :zenon
                               :favorite-lisp-implementation :clisp
                               :favorite-c-compiler :gcc)))
-    (assert-equal ____ (person-name zenon))
-    (assert-equal ____ (favorite-lisp-implementation zenon))
-    (assert-equal ____ (favorite-c-compiler zenon))
-    (true-or-false? ____ (typep zenon 'person))
-    (true-or-false? ____ (typep zenon 'lisp-programmer))
-    (true-or-false? ____ (typep zenon 'c-programmer))
-    (true-or-false? ____ (typep zenon 'clisp-programmer))))
+    (assert-equal :zenon (person-name zenon))
+    (assert-equal :clisp (favorite-lisp-implementation zenon))
+    (assert-equal :gcc (favorite-c-compiler zenon))
+    (true-or-false? t (typep zenon 'person))
+    (true-or-false? t (typep zenon 'lisp-programmer))
+    (true-or-false? t (typep zenon 'c-programmer))
+    (true-or-false? t (typep zenon 'clisp-programmer))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -140,17 +140,17 @@
 
 (define-test greeting-chatbot ()
   (let ((chatbot (make-instance 'greeting-chatbot :version "1.0.0")))
-    (true-or-false? ____ (typep chatbot 'greeting-mixin))
-    (true-or-false? ____ (typep chatbot 'chatbot))
-    (true-or-false? ____ (typep chatbot 'greeting-chatbot))
-    (assert-equal ____ (greet chatbot "Tom"))
-    (assert-equal ____ (greeted-people chatbot))
-    (assert-equal ____ (greet chatbot "Sue"))
-    (assert-equal ____ (greet chatbot "Mark"))
-    (assert-equal ____ (greet chatbot "Kate"))
-    (assert-equal ____ (greet chatbot "Mark"))
-    (assert-equal ____ (greeted-people chatbot))
-    (assert-equal ____ (version chatbot))))
+    (true-or-false? t (typep chatbot 'greeting-mixin))
+    (true-or-false? t (typep chatbot 'chatbot))
+    (true-or-false? t (typep chatbot 'greeting-chatbot))
+    (assert-equal "Hello, Tom." (greet chatbot "Tom"))
+    (assert-equal '("Tom") (greeted-people chatbot))
+    (assert-equal "Hello, Sue." (greet chatbot "Sue"))
+    (assert-equal "Hello, Mark." (greet chatbot "Mark"))
+    (assert-equal "Hello, Kate." (greet chatbot "Kate"))
+    (assert-equal "Hello, Mark." (greet chatbot "Mark"))
+    (assert-equal '("Kate" "Mark" "Sue" "Tom") (greeted-people chatbot))
+    (assert-equal "1.0.0" (version chatbot))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -175,7 +175,7 @@
         (antonio (make-instance 'italian))
         (roy (make-instance 'stereotypical-person))
         (mary (make-instance 'another-stereotypical-person)))
-    (assert-equal ____ (stereotypical-food james))
-    (assert-equal ____ (stereotypical-food antonio))
-    (assert-equal ____ (stereotypical-food roy))
-    (assert-equal ____ (stereotypical-food mary))))
+    (assert-equal :burger (stereotypical-food james))
+    (assert-equal :pasta (stereotypical-food antonio))
+    (assert-equal :burger (stereotypical-food roy))
+    (assert-equal :pasta (stereotypical-food mary))))
