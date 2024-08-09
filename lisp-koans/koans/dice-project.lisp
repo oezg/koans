@@ -18,16 +18,19 @@
 
 (defclass dice-set ()
   ;; Fill in the blank with a proper slot definition.
-  (____))
+  ((nums :accessor dice-values :initform '())))
 
 ;;; This method might be unnecessary, depending on how you define the slots of
 ;;; DICE-SET.
 
-(defmethod dice-values ((object dice-set))
-  ____)
+; (defmethod dice-values ((object dice-set))
+;   (nums object))
 
 (defmethod roll (count (object dice-set))
-  ____)
+  (check-type count (integer 1))
+  (setf (dice-values object) '())
+  (dotimes (i count) (push (+ 1 (random 6)) (dice-values object)))
+  (dice-values object))
 
 (define-test make-dice-set
   (let ((dice (make-instance 'dice-set)))
