@@ -35,7 +35,9 @@
   ;; that are macroexpansions or parts of macroexpansions.
   (let ((variable 'x))
     ;; Fill in the blank without using backquote/unquote notation.
-    (assert-equal ____
+    (assert-equal '(if (typep x 'string)
+                       (format nil "The value of ~A is ~A" 'x x)
+                       (error 'type-error :datum x :expected-type 'string))
                   `(if (typep ,variable 'string)
                        (format nil "The value of ~A is ~A" ',variable ,variable)
                        (error 'type-error :datum ,variable
@@ -43,7 +45,9 @@
   (let ((error-type 'type-error)
         (error-arguments '(:datum x :expected-type 'string)))
     ;; Fill in the blank without using backquote/unquote notation.
-    (assert-equal ____
+    (assert-equal '(if (typep x 'string)
+                       (format nil "The value of ~A is ~A" 'x x)
+                       (error 'type-error :datum x :expected-type 'string))
                   `(if (typep x 'string)
                        (format nil "The value of ~A is ~A" 'x x)
                        (error ',error-type ,@error-arguments)))))
@@ -51,15 +55,15 @@
 (define-test numbers-and-words
   (let ((number 5)
         (word 'dolphin))
-    (true-or-false? ____ (equal '(1 3 5) `(1 3 5)))
-    (true-or-false? ____ (equal '(1 3 5) `(1 3 number)))
-    (assert-equal ____ `(1 3 ,number))
-    (assert-equal _____ `(word ,word ,word word))))
+    (true-or-false? t (equal '(1 3 5) `(1 3 5)))
+    (true-or-false? nil (equal '(1 3 5) `(1 3 number)))
+    (assert-equal '(1 3 5) `(1 3 ,number))
+    (assert-equal '(word dolphin dolphin word) `(word ,word ,word word))))
 
 (define-test splicing
   (let ((axis '(x y z)))
-    (assert-equal '(the axis are ____) `(the axis are ,axis))
-    (assert-equal '(the axis are ____) `(the axis are ,@axis)))
+    (assert-equal '(the axis are (x y z)) `(the axis are ,axis))
+    (assert-equal '(the axis are x y z) `(the axis are ,@axis)))
   (let ((coordinates '((43.15 77.6) (42.36 71.06))))
-    (assert-equal ____ `(the coordinates are ,coordinates))
-    (assert-equal ____ `(the coordinates are ,@coordinates))))
+    (assert-equal '(the coordinates are ((43.15 77.6) (42.36 71.06))) `(the coordinates are ,coordinates))
+    (assert-equal '(the coordinates are (43.15 77.6) (42.36 71.06)) `(the coordinates are ,@coordinates))))
