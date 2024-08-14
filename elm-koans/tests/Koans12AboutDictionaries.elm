@@ -88,5 +88,5 @@ testSuite =
             -- so does filter, foldl, foldr, partition
             \() ->
                 [ "ac", "bc" ]
-                    |> Expect.equal (Dict.values <| Dict.map (\k v -> v ++ "c") (Dict.fromList [ ( 1, "a" ), ( 2, "b" ) ]))
+                    |> Expect.equal (Dict.values <| Dict.map (\_ v -> v ++ "c") (Dict.fromList [ ( 1, "a" ), ( 2, "b" ) ]))
         ]
