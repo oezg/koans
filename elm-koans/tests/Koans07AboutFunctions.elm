@@ -49,23 +49,23 @@ testSuite =
                     |> Expect.equal (identity 4)
         , test "functions are defined as 'name args = implementation'" <|
             \() ->
-                add1 (4)
+                add1 4
                     |> Expect.equal 5
         , test "functions may have an optional type signature" <|
             \() ->
-                add 3 (2)
+                add 3 2
                     |> Expect.equal 5
         , test "anonymous functions are defined with '\\args -> implementation'" <|
             \() ->
-                subtract 8 (3)
+                subtract 8 3
                     |> Expect.equal 5
         , test "anonymous functions may be defined inline" <|
             \() ->
-                (\x y -> x - y) 8 (3)
+                (\x y -> x - y) 8 3
                     |> Expect.equal 5
         , test "functions passed some values return curried functions" <|
             \() ->
-                subtractFrom4 (3)
+                subtractFrom4 3
                     |> Expect.equal 1
         , test "the always function returns its first argument, no matter what the second is" <|
             \() ->
