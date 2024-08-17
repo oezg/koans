@@ -1,0 +1,6 @@
+{:paths
+ ["src" "resources"]
+ :deps
+ {org.clojure/clojure {:mvn/version "1.11.0"}
+  koan-engine/koan-engine {:mvn/version "0.2.5"}}}
+

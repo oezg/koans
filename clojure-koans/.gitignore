@@ -204,3 +204,11 @@ sftp-config.json
 # Vagrant
 .vagrant/
 ubuntu-xenial-16.04-cloudimg-console.log
+
+#vs code
+.calva/
+.clj-kondo/
+.cpcache/
+.lsp/
+.portal/
+.taget/
