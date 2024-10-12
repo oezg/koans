@@ -4,18 +4,17 @@
 ;; = Sets: conj =
 ;; By 4Clojure user: dbyrne
 ;; Difficulty: Elementary
-;; 
+;;
 ;; When operating on a set, the conj function returns a
 ;; new set with one or more keys "added".
 
-(def __ :tests-will-fail)
+(def __ 2)
 
 (comment
-  
-  )
+  (assert (= #{1 4 3 2} #{3 1 2 4})))
 
 (tests
-  #{1 2 3 4} := (conj #{1 4 3} __))
+ #{1 2 3 4} := (conj #{1 4 3} __))
 
 ;; Share your solution, and/or check how others did it:
 ;; https://gist.github.com/ad6c54ca6259cd67274a902f2d0be1ff

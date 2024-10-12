@@ -4,18 +4,20 @@
 ;; = Maps: conj =
 ;; By 4Clojure user: dbyrne
 ;; Difficulty: Elementary
-;; 
+;;
 ;; When operating on a map, the conj function returns a
 ;; new map with one or more key-value pairs "added".
 
-(def __ :tests-will-fail)
+(def __ [:b 2])
 
 (comment
-  
-  )
+  (assert (= 3 (:k (conj (hash-map) [:k (- 8 5)]))))
+  (def x (hash-map 4 5 6 7))
+  x
+  (sorted? x))
 
 (tests
-  {:a 1, :b 2, :c 3} := (conj {:a 1} __ [:c 3]))
+ {:a 1, :b 2, :c 3} := (conj {:a 1} __ [:c 3]))
 
 ;; Share your solution, and/or check how others did it:
 ;; https://gist.github.com/3a6532504180b1b65534b75a804d6f82
