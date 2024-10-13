@@ -4,19 +4,18 @@
 ;; = Hello World =
 ;; By 4Clojure user: dbyrne
 ;; Difficulty: Elementary
-;; 
+;;
 ;; Write a function which returns a personalized greeting.
 
-(def __ :tests-will-fail)
+(def __ (partial format "Hello, %s!"))
 
 (comment
-  
-  )
+  (format "Hello, %s!" "Gt"))
 
 (tests
-  (__ "Dave") := "Hello, Dave!"
-  (__ "Jenn") := "Hello, Jenn!"
-  (__ "Rhea") := "Hello, Rhea!")
+ (__ "Dave") := "Hello, Dave!"
+ (__ "Jenn") := "Hello, Jenn!"
+ (__ "Rhea") := "Hello, Rhea!")
 
 ;; Share your solution, and/or check how others did it:
 ;; https://gist.github.com/60e1accc59d5c5783365ab46d47eb78b

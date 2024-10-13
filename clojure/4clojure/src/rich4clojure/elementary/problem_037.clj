@@ -5,17 +5,16 @@
 ;; By 4Clojure user: dbyrne
 ;; Difficulty: Elementary
 ;; Tags: [regex syntax]
-;; 
+;;
 ;; Regex patterns are supported with a special reader tag.
 
-(def __ :tests-will-fail)
+(def __ "ABC")
 
 (comment
-  
-  )
+  (re-seq #"6*" "f6w"))
 
 (tests
-  __ := (apply str (re-seq #"[A-Z]+" "bA1B3Ce ")))
+ __ := (apply str (re-seq #"[A-Z]+" "bA1B3Ce ")))
 
 ;; Share your solution, and/or check how others did it:
 ;; https://gist.github.com/48ee58ab81946ddf8038f739536b7249
