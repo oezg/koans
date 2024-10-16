@@ -23,7 +23,8 @@
 
 (comment
   (sum-numbers [1 2 3 \r])
-  (reduce + [1 2 3 4]))
+  (reduce + [1 2 3 4])
+  (empty? []))
 
 (tests
  (__ [1 2 3]) := 6
