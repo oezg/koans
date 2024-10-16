@@ -5,15 +5,15 @@
 ;; By 4Clojure user: hangkous
 ;; Difficulty: Elementary
 ;; Tags: [logic]
-;; 
+;;
 ;; In Clojure, only nil and false represent the values of
 ;; logical falsity in conditional tests - anything else is
 ;; logical truth.
 
-(def __ :tests-will-fail)
+(def __ 1)
 
 (comment
-  
+
   )
 
 (tests
