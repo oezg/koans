@@ -22,7 +22,8 @@
 (def __ sum-numbers)
 
 (comment
-  (sum-numbers [1 2 3 \r]))
+  (sum-numbers [1 2 3 \r])
+  (reduce + [1 2 3 4]))
 
 (tests
  (__ [1 2 3]) := 6
