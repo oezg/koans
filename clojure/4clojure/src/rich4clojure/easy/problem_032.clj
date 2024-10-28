@@ -5,21 +5,25 @@
 ;; By 4Clojure user: dbyrne
 ;; Difficulty: Easy
 ;; Tags: [seqs]
-;; 
+;;
 ;; Write a function which duplicates each element of a
 ;; sequence.
 
-(def __ :tests-will-fail)
+(defn duplicate [coll]
+  (mapcat (partial repeat 2) coll))
+
+(def __ (partial mapcat (partial repeat 2)))
 
 (comment
-  
-  )
+  (flatten (map (fn [n] [n n]) [[1 2] [3 4]]))
+  (duplicate [[1 2] [3 4]])
+  :rcf)
 
 (tests
-  (__ [1 2 3]) := '(1 1 2 2 3 3)
-  (__ [:a :a :b :b]) := '(:a :a :a :a :b :b :b :b)
-  (__ [[1 2] [3 4]]) := '([1 2] [1 2] [3 4] [3 4])
-  (__ [[1 2] [3 4]]) := '([1 2] [1 2] [3 4] [3 4]))
+ (__ [1 2 3]) := '(1 1 2 2 3 3)
+ (__ [:a :a :b :b]) := '(:a :a :a :a :b :b :b :b)
+ (__ [[1 2] [3 4]]) := '([1 2] [1 2] [3 4] [3 4])
+ (__ [[1 2] [3 4]]) := '([1 2] [1 2] [3 4] [3 4]))
 
 ;; Share your solution, and/or check how others did it:
 ;; https://gist.github.com/9e936a6097fdb1fd7a8418a22e3e1170
