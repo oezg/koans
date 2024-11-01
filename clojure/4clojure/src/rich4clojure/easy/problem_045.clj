@@ -5,18 +5,17 @@
 ;; By 4Clojure user: dbyrne
 ;; Difficulty: Easy
 ;; Tags: [seqs]
-;; 
+;;
 ;; The iterate function can be used to produce an infinite
 ;; lazy sequence.
 
-(def __ :tests-will-fail)
+(def __ '(1 4 7 10 13))
 
 (comment
-  
-  )
+  (take 5 (iterate #(+ 3 %) 1)))
 
 (tests
-  __ := (take 5 (iterate #(+ 3 %) 1)))
+ __ := (take 5 (iterate #(+ 3 %) 1)))
 
 ;; Share your solution, and/or check how others did it:
 ;; https://gist.github.com/f1da413cb1110daf97898dbf73113894
