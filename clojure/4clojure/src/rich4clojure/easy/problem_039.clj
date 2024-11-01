@@ -20,7 +20,8 @@
      (recur (conj acc h1 h2) t1 t2))))
 
 (comment
-  (__ [4 5 6 7] [0 9 8]))
+  (__ [4 5 6 7] [0 9 8])
+  (mapcat vector [4 5 6 7] [0 9 8]))
 
 (tests
  (__ [1 2 3] [:a :b :c]) := '(1 :a 2 :b 3 :c)
