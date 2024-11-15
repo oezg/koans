@@ -17,11 +17,11 @@
 ;; that does not do precedence and instead just calculates
 ;; left to right.
 
-(defn calculate [& args]
-  (if (= 1 (count args))
-    (first args)
-    (let [[operand1 operator operand2 & tail] args]
-      (recur (cons (operator operand1 operand2) tail)))))
+(defn calculate [operand1 & args]
+  (if (nil? args)
+    operand1
+    (let [[operator operand2 & tail] args]
+      (recur (operator operand1 operand2) tail))))
 
 (def __ calculate)
 
