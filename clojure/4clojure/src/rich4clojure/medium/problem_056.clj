@@ -37,7 +37,7 @@
       :else (recur (conj visited head) (conj distincts head) tail))))
 
 
-(def __ deduplicate-loop)
+(def __ (partial deduplicate-reduce))
 
 (comment)
 
