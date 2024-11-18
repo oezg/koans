@@ -34,9 +34,35 @@
   ([f init coll] (lazy-seq (map #(reduce f init (take % coll)) (range)))))
 
 
-(def __ map-reduce)
+(defn another
+  ([f coll] (another f (first coll) (rest coll)))
+  ([f init coll] (another f [init] init coll))
+  ([f acc state coll] (if (empty? coll)
+                        acc
+                        (let [new-state (f state (first coll))]
+                          (cons new-state (lazy-seq (another f acc state (rest coll))))))))
+
+(defn redumulate
+  "Return a lazy sequence of each intermediate value of the reduction"
+  ([f [head & tail]]
+   (if head
+     (redumulate f head tail)
+     ()))
+  ([f state [head & tail]]
+   (cons state
+         (when head
+           (lazy-seq (redumulate f (f state head) tail))))))
+
+(def __ redumulate)
 
 (comment
+  (let [[h & t] (range)]
+    (if h :tit :koi))
+  (cons 5 nil)
+  (redumulate + (range))
+  (redumulate + ())
+  (redumulate + 3 ())
+  (take 0 (reductions + (range)))
   (reductions conj [2 3 4])
   (if (empty? '(1)) :ok :nok)
   (rest (range))
