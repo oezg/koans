@@ -16,12 +16,41 @@
 
 (def restricted [merge-with])
 
-(defn conj-map [m & ms]
-  (reduce #() m ms))
+;; (defn updater
+;;   "Merge old and new maps. Apply f to values of common keys"
+;;   [f old new]
+;;   (into old (for [[k v] new]
+;;               [k (if (contains? old k)
+;;                    (f (get old k) v)
+;;                    v)])))
 
-(def __ :tests-will-fail)
+(defn on-update
+  "Apply the given function if the old map contains the key, otherwise return the new value."
+  [func newval oldval]
+  (if (nil? oldval)
+    newval
+    (func oldval newval)))
 
-(comment)
+(defn how-to-update
+  [f acc [k v]]
+  (update acc k (partial on-update f v)))
+
+(defn updater
+  "Merge old and new maps. Apply f to values of common keys"
+  [f old new]
+  (reduce (partial how-to-update f) old new))
+
+(defn conj-map [f m & ms]
+  (reduce (partial updater f) m ms))
+
+(def __ conj-map)
+(def em {:a 2, :b 3, :c 4})
+
+(comment
+  (update em :e #(if (nil? %) 99 (inc %)))
+  (into em {:a 123})
+  (conj-map - em {:a 1})
+  (conj-map - {1 10 2 20} {1 3 2 10 3 15}))
 
 (tests
  (__ * {:a 2, :b 3, :c 4} {:a 2} {:b 2} {:c 5}) :=
