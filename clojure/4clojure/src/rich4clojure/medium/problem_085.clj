@@ -27,17 +27,27 @@
   [p elem]
   (into p (add-to-each-set p elem)))
 
-(defn power-set
+(defn power-set1
   "Generate the power set of a given (s)et."
   [s]
   (reduce add-to-power-set #{#{}} s))
+
+(defn power-set
+  "Generate the (p)ower set of a given (s)et."
+  [s]
+  (reduce
+   (fn [p x] (into p (map #(conj % x) p)))
+   #{#{}}
+   s))
 
 
 (def __ power-set)
 
 (comment
   (let [[a & b] #{3 4 6}] b)
-  (power-set #{:ö :t :k :s}))
+  (power-set #{:ö :t :k :s})
+  (cons 4 #{7 6})
+  (conj #{7 6} 4))
 
 (tests
  (__ #{1 :a}) := #{#{1 :a} #{:a} #{} #{1}}
