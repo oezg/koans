@@ -27,6 +27,7 @@
 
 (comment
   (k-combinations 2 #{3 4 5})
+  (k-combinations 1 #{-1 1 999})
   (set/union #{7 8 9} #{1 2 3 7})
   (set (concat #{1 2 3} #{5 6 1 7}))
   (set/union #{1 2 3} #{5 6 1 7})
