@@ -5,7 +5,7 @@
 ;; By 4Clojure user: amalloy
 ;; Difficulty: Medium
 ;; Tags: [game cards]
-;; 
+;;
 ;; In trick-taking card games such as bridge, spades, or
 ;; hearts, cards are played in groups known as "tricks" -
 ;; each player plays a single card, in order; the first
@@ -19,7 +19,7 @@
 ;; others: if there is a trump suit, and any trumps are
 ;; played, then the highest trump wins regardless of what
 ;; was led.
-;; 
+;;
 ;; Your goal is to devise a function that can determine
 ;; which of a number of cards has won a trick. You should
 ;; accept a trump suit, and return a function winner.
@@ -29,23 +29,33 @@
 ;; Recognize Playing Cards : a hash-map of :suit and a
 ;; numeric :rank. Cards with a larger rank are stronger.
 
-(def __ :tests-will-fail)
+
+(defn winner-trump [trump]
+  (fn [[lead & cards]]
+    (reduce #(if (or (and (= (:suit %2) (:suit %1)) (> (:rank %2) (:rank %1)))
+                     (and (= trump (:suit %2)) (not= trump (:suit %1))))
+               %2 %1) lead cards)))
+
+
+(def __ winner-trump)
 
 (comment
-  
-  )
+  ((winner-trump nil) [{:suit :spade :rank 2}
+                       {:suit :club :rank 10}])
+  ((winner-trump nil) [{:suit :club :rank 4}
+                       {:suit :club :rank 9}]))
 
 (tests
-  [notrump (__ nil)] :=
-  (and (= {:suit :club :rank 9}  (notrump [{:suit :club :rank 4}
-                                           {:suit :club :rank 9}]))
-       (= {:suit :spade :rank 2} (notrump [{:suit :spade :rank 2}
-                                           {:suit :club :rank 10}])))
-  {:suit :club :rank 10} := ((__ :club) [{:suit :spade :rank 2}
-                                       {:suit :club :rank 10}])
-  {:suit :heart :rank 8} :=
-   ((__ :heart) [{:suit :heart :rank 6} {:suit :heart :rank 8}
-                 {:suit :diamond :rank 10} {:suit :heart :rank 4}]))
+ (let [notrump (__ nil)]
+   (and (= {:suit :club :rank 9}  (notrump [{:suit :club :rank 4}
+                                            {:suit :club :rank 9}]))
+        (= {:suit :spade :rank 2} (notrump [{:suit :spade :rank 2}
+                                            {:suit :club :rank 10}]))))
+ {:suit :club :rank 10} := ((__ :club) [{:suit :spade :rank 2}
+                                        {:suit :club :rank 10}])
+ {:suit :heart :rank 8} :=
+ ((__ :heart) [{:suit :heart :rank 6} {:suit :heart :rank 8}
+               {:suit :diamond :rank 10} {:suit :heart :rank 4}]))
 
 ;; Share your solution, and/or check how others did it:
 ;; https://gist.github.com/7e0c1414a4608324194462939c7d6121
