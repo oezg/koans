@@ -31,10 +31,10 @@
 
 
 (defn winner-trump [trump]
-  (fn [[lead & cards]]
-    (reduce #(if (or (and (= (:suit %2) (:suit %1)) (> (:rank %2) (:rank %1)))
-                     (and (= trump (:suit %2)) (not= trump (:suit %1))))
-               %2 %1) lead cards)))
+  (partial reduce #(cond
+                     (= (:suit %2) (:suit %1)) (if (> (:rank %2) (:rank %1)) %2 %1)
+                     (= trump (:suit %2)) %2
+                     :else %1)))
 
 
 (def __ winner-trump)
