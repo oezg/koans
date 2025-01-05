@@ -1,5 +1,6 @@
 (ns rich4clojure.medium.problem-150
-  (:require [hyperfiddle.rcf :refer [tests]]))
+  (:require [hyperfiddle.rcf :refer [tests]]
+            [clojure.math :as math]))
 
 ;; = Palindromic Numbers =
 ;; By 4Clojure user: maximental
@@ -17,20 +18,68 @@
 ;;
 ;; The most simple solution will exceed the time limit!
 
-(defn next-palindrome [n])
+(defn digit
+  "Return the sequence of the digits of the number."
+  ([n] (if (zero? n) '(0) (digit '() n)))
+  ([acc n] (if (zero? n) acc (digit (cons (rem n 10) acc) (quot n 10)))))
 
-(defn palindromic? [n]
-  (let [s (str n)] (= (seq s) (reverse s))))
+(defn undigit
+  "Return the number corresponding to the sequence of digits."
+  ([digits] (undigit 0 1 (reverse digits)))
+  ([acc power [head & tail]]
+   (if (nil? head)
+     acc
+     (undigit (+ acc (* power head)) (* power 10) tail))))
 
-(defn palindromics [n]
-  (iterate next-palindrome (if (palindromic? n) n (next-palindrome n))))
+(defn significant
+  "Return the first half of the given sequence of digits."
+  [digits]
+  (take (math/ceil (/ (count digits) 2)) digits))
 
-(def __ :tests-will-fail)
+(defn succeeding
+  "Given a palindromic sequence of digits, return the next palindromic sequence of digits."
+  [digits]
+  (let [head (significant digits)
+        head' #((if % drop-last identity) (digit (inc (undigit head))))]
+    (concat (head' (odd? (count digits))) (reverse (head' (every? #(= % 9) head))))))
+
+(defn round-to-palindrome
+  "Given a sequence of digits, return the palindrome equal in length
+  that starts with the same significant digits."
+  [digits]
+  (let [head (significant digits)
+        tail ((if (odd? (count digits)) rest identity) (reverse head))]
+    (concat head tail)))
+
+(defn palindrome
+  "Return the digits of the palindromic number that is not less than n."
+  [n]
+  (let [palindrome (round-to-palindrome (digit n))]
+    ((if (> n (undigit palindrome)) succeeding identity) palindrome)))
+
+(defn palindromes
+  "Return an increasing lazy sequence of all palindromic numbers
+  that are not less than n."
+  [n]
+  (map undigit (iterate succeeding (palindrome n))))
+
+(def __ palindromes)
 
 (comment
+  ((if (even? 4) reverse identity)  '(8 9 0))
+  (->> 5 ((fn [h] (+ 7 h))))
+  (->> 5 (#(+ 7 %)))
+  (= '(1 2 3 4) '(1 2 3 4))
+  (take (math/ceil (/ 7 2)) '(1 2 3 4 5 6 7))
+  (undigit '(0))
+  (succeeding '(1 2 3))
+  (undigit (digit 3450384570))
+  (undigit '(1 2 3 0 4 5))
   (seq (str 123451))
   (reverse (str 123451))
   (= (seq (str 1234567654321)) (reverse (str 1234567654321)))
+  (class (* 111111111 111111111))
+  (= 12345678987654321 (first (palindromes 12345678987654321)))
   :rcf)
 
 (tests
