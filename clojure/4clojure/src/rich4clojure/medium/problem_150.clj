@@ -18,10 +18,15 @@
 ;;
 ;; The most simple solution will exceed the time limit!
 
+(defmacro apply-if [condition function argument]
+  `(if ~condition (~function ~argument) ~argument))
+
 (defn digit
   "Return the sequence of the digits of the number."
   ([n] (if (zero? n) '(0) (digit '() n)))
-  ([acc n] (if (zero? n) acc (digit (cons (rem n 10) acc) (quot n 10)))))
+  ([acc n] (if (zero? n)
+             acc
+             (recur (cons (rem n 10) acc) (quot n 10)))))
 
 (defn undigit
   "Return the number corresponding to the sequence of digits."
@@ -29,7 +34,7 @@
   ([acc power [head & tail]]
    (if (nil? head)
      acc
-     (undigit (+ acc (* power head)) (* power 10) tail))))
+     (recur (+ acc (* power head)) (* power 10) tail))))
 
 (defn significant
   "Return the first half of the given sequence of digits."
@@ -40,28 +45,27 @@
   "Given a palindromic sequence of digits, return the next palindromic sequence of digits."
   [digits]
   (let [head (significant digits)
-        head' #((if % drop-last identity) (digit (inc (undigit head))))]
-    (concat (head' (odd? (count digits))) (reverse (head' (every? #(= % 9) head))))))
+        ahead #(apply-if % drop-last (digit (inc (undigit head))))]
+    (concat (ahead (odd? (count digits))) (reverse (ahead (every? #(= % 9) head))))))
 
 (defn round-to-palindrome
   "Given a sequence of digits, return the palindrome equal in length
   that starts with the same significant digits."
   [digits]
   (let [head (significant digits)
-        tail ((if (odd? (count digits)) rest identity) (reverse head))]
+        tail (apply-if (odd? (count digits)) rest (reverse head))]
     (concat head tail)))
 
 (defn palindrome
   "Return the digits of the palindromic number that is not less than n."
   [n]
   (let [palindrome (round-to-palindrome (digit n))]
-    ((if (> n (undigit palindrome)) succeeding identity) palindrome)))
+    (apply-if (> n (undigit palindrome)) succeeding palindrome)))
 
 (defn palindromes
-  "Return an increasing lazy sequence of all palindromic numbers
-  that are not less than n."
+  "Return an increasing lazy sequence of all palindromic numbers that are not less than n."
   [n]
-  (map undigit (iterate succeeding (palindrome n))))
+  (->> n palindrome (iterate succeeding) (map undigit)))
 
 (def __ palindromes)
 
